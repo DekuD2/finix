@@ -27,7 +27,7 @@
         fi
 
         export PYTHONHOME="${python-with-packages}"
-      '';
+      '');
     };
   };
 }
