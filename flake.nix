@@ -9,7 +9,7 @@
   in
   {
     lib.${system} = {
-      mk_prepare_venv = {writeShellScriptBin, python-with-packages, venvDir ? ".venv"}: (writeShellScriptBin "prepare_venv.sh" ''
+      mk_prepare_venv = {writeShellScriptBin, python-with-packages, venvDir ? ".venv"}: ''
         # Create virtualenv if doesn't exist
         if test ! -d "./${venvDir}"; then
           echo "creating venv..."
@@ -27,7 +27,7 @@
         fi
 
         export PYTHONHOME="${python-with-packages}"
-      '');
+      '';
     };
   };
 }
