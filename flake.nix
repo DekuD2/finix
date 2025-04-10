@@ -25,6 +25,8 @@
             print "installing dependencies... ('pip install -e .')"
             ${venvDir}/bin/pip install -e .
           }
+        } else {
+          print "venv already exists"
         }
 
         $env.PYTHONHOME = "${python-with-packages}"
