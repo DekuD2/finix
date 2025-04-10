@@ -1,14 +1,11 @@
 {
   description = "My personal tools for simplifying development.";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-  };
+  inputs = { };
 
-  outputs = { self, nixpkgs }@inputs:
+  outputs = { self }:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
   in
   {
     lib.${system} = {
