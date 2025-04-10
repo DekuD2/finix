@@ -9,7 +9,7 @@
   in
   {
     lib.${system} = {
-      mkprepare_venv = {writeScriptBin, python-with-packages, venvDir ? ".venv"}: (writeShellScriptBin "prepare_venv.sh" ''
+      mkprepare_venv = {writeShellScriptBin, python-with-packages, venvDir ? ".venv"}: (writeShellScriptBin "prepare_venv.sh" ''
         # Create virtualenv if doesn't exist
         if test ! -d "./${venvDir}"; then
           echo "creating venv..."
