@@ -1,15 +1,29 @@
 {
   description = "My personal tools for simplifying development.";
 
-  inputs = { };
+  inputs = {
+    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
 
-  outputs = { self }:
+  outputs = { self, nixpkgs-unstable, flake-utils }:
+  flake-utils.lib.eachDefaultSystem (system:
   let
-    system = "x86_64-linux";
+    unstable = nixpkgs-unstable.legacyPackages.${system};
+    tclock = unstable.rustPlatform.buildRustPackage rec {
+      pname = "tclock";
+      version = "0.5.0";
+      src = fetchTarball {
+        url = "https://github.com/race604/clock-tui/tarball/master";
+        sha256 = "1w1lb5k32r58n9cxazbz5rjxjsv7pk83p5brvxdc0anh0dsbwxyk";
+      };
+      cargoLock.lockFile = "${src}/Cargo.lock";
+    };
   in
   {
-    lib.${system} = {
-      mk_prepare_venv = {writeShellScriptBin, python-with-packages, venvDir ? ".venv"}: ''
+    packages.tclock = tclock;
+    lib = {
+      mk_prepare_venv = {python-with-packages, venvDir ? ".venv"}: ''
         # Create virtualenv if doesn't exist
         if test ! -d "./${venvDir}"; then
           echo "creating venv..."
@@ -29,6 +43,7 @@
         export PYTHONHOME="${python-with-packages}"
       '';
     };
-  };
+  }
+  );
 }
 
