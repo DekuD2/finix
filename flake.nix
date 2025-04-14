@@ -10,6 +10,7 @@
   flake-utils.lib.eachDefaultSystem (system:
   let
     unstable = nixpkgs-unstable.legacyPackages.${system};
+    # lib = unstable.lib;
     tclock = unstable.rustPlatform.buildRustPackage rec {
       pname = "tclock";
       version = "0.5.0";
@@ -21,6 +22,7 @@
     };
   in
   {
+    packages.default = unstable.writeScriptBin "hello.sh" "echo hello";
     packages.tclock = tclock;
     lib = {
       mk_prepare_venv = {python-with-packages, venvDir ? ".venv"}: ''
